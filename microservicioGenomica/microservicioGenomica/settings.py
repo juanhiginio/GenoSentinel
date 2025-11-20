@@ -74,8 +74,15 @@ WSGI_APPLICATION = 'microservicioGenomica.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'GenoGenomics',
+        'USER': 'root',
+        'PASSWORD': 'juan_higinioPS4',
+        'HOST': 'localhost',   # Or MySQL IP
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }
     }
 }
 
