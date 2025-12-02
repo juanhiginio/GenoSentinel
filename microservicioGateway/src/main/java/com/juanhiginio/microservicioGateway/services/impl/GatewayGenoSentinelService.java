@@ -1,55 +1,53 @@
 package com.juanhiginio.microservicioGateway.services.impl;
 
+import com.juanhiginio.microservicioGateway.services.IGatewayGenoSentinelService;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 @Service
-public class GatewayGenomicaService {
+public class GatewayGenoSentinelService implements IGatewayGenoSentinelService {
 
     private final WebClient webClient;
 
-    public GatewayGenomicaService(WebClient webClient) {
+    public GatewayGenoSentinelService(WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public String ejecutarPeticion(
+    @Override
+    // Método genérico que devuelve objeto de tipo T
+    public <T> T ejecutarPeticion(
             HttpMethod metodo,
             String url,
-            Map<String, Object> body
+            Object body,
+            Class<T> responseType // La clase a la que convertir la respuesta
     ) {
 
         WebClient.RequestBodySpec requestSpec = webClient
                 .method(metodo)
                 .uri(url);
 
-        Mono<String> responseMono;
-
         // GET y DELETE NO usan body
         if (metodo == HttpMethod.GET || metodo == HttpMethod.DELETE) {
 
-            responseMono = requestSpec
+            return requestSpec
                     .retrieve()
-                    .bodyToMono(String.class);
-
+                    .bodyToMono(responseType)
+                    .block();
         } else {
             // POST / PUT / PATCH → con o sin body
             if (body != null) {
-                responseMono = requestSpec
+                return requestSpec
                         .bodyValue(body)
                         .retrieve()
-                        .bodyToMono(String.class);
+                        .bodyToMono(responseType)
+                        .block();
             } else {
-                responseMono = requestSpec
+                return requestSpec
                         .retrieve()
-                        .bodyToMono(String.class);
+                        .bodyToMono(responseType)
+                        .block();
             }
         }
-
-        // Convertimos a síncrono
-        return responseMono.block();
     }
 }
