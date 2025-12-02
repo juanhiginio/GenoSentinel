@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No se usan sesiones, cada petición se valida por sí sola
                 .authorizeHttpRequests(auth -> auth
                         // Permite el acceso sin autenticación a los endpoints de login y registro
-                        .requestMatchers("/auth/login", "/auth/register").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // El resto de endpoints requieren autenticación
                         .anyRequest().authenticated()
                 )
