@@ -27,7 +27,7 @@ export class CreateClinicalRecordDto {
 
   @ApiProperty({ example: 'IIA', enum: ['IIA', 'IV'] })
   @IsString()
-  @IsIn(['IIA', 'IV']) // Validación estricta según tu SQL
+  @IsIn(['IIA', 'IV'])
   stage: string;
 
   @ApiProperty({ example: 'Quimioterapia estándar', required: false })

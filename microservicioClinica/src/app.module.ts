@@ -13,8 +13,8 @@ import { ClinicalRecord } from './clinical-records/entities/clinical-record.enti
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username: 'root', // VERIFICA TU USUARIO
-      password: 'TRC12345', // VERIFICA TU CONTRASEÑA
+      username: 'root',
+      password: 'juan_higinioPS4',
       database: 'GenoClinic',
       entities: [Patient, TumorType, ClinicalRecord],
       synchronize: false,

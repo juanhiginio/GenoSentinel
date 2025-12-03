@@ -9,6 +9,6 @@ export class CreateTumorTypeDto {
 
   @ApiProperty({ example: 'Glandulas Mamarias', required: false })
   @IsString()
-  @IsOptional() // En el SQL esta como NULL
+  @IsOptional()
   systemAffected?: string;
 }

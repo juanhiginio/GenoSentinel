@@ -20,12 +20,12 @@ export class CreatePatientDto {
 
   @ApiProperty({ example: '1990-05-15', required: false })
   @IsDateString()
-  @IsOptional() // En tu SQL es NULL, así que puede no venir
+  @IsOptional()
   birthDate?: string;
 
   @ApiProperty({ example: 'Male', enum: ['Male', 'Female', 'Other'] })
   @IsString()
-  @IsIn(['Male', 'Female', 'Other']) // Validación estricta según tu SQL
+  @IsIn(['Male', 'Female', 'Other'])
   gender: string;
 
   @ApiProperty({

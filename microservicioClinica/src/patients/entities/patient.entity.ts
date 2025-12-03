@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('patient') // Debe coincidir con tu tabla SQL
+@Entity('patient')
 export class Patient {
   @PrimaryGeneratedColumn('uuid')
   id: string;

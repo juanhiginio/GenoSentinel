@@ -24,9 +24,16 @@ async function bootstrap() {
   // La documentación estará en /api
   SwaggerModule.setup('api', app, document);
 
-  // El microservicio correrá en el puerto 3001 (asumiendo que 3000 lo usará Genómica/Gateway)
-  await app.listen(3001);
-  console.log(`Microservicio Clínica corriendo en: http://localhost:3001`);
-  console.log(`Documentación Swagger en: http://localhost:3001/api`);
+  // Configuración para poder recibir peticiones desde cualquier URL
+  app.enableCors({
+    origin: '*',
+    methods: '*',
+    allowedHeaders: '*',
+  });
+
+  // El microservicio correrá en el puerto 4000
+  await app.listen(4000);
+  console.log(`Microservicio Clínica corriendo en: http://localhost:4000`);
+  console.log(`Documentación Swagger en: http://localhost:4000/api`);
 }
 bootstrap().catch((err) => console.error(err));

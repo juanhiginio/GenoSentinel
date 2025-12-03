@@ -21,7 +21,7 @@ export class ClinicalRecordsService {
   }
 
   findAll() {
-    // IMPORTANTE: 'relations' trae los datos completos de Patient y TumorType
+    // 'relations' trae los datos completos de Patient y TumorType
     return this.clinicalRecordRepository.find({
       relations: ['patient', 'tumorType'],
     });
