@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clinica
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clinica
+  template:
+    metadata:
+      labels:
+        app: clinica
+    spec:
+      containers:
+      - name: clinica
+        image: juanhiginio/clinica:1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DB_NAME
+          value: GenoClinic
+        - name: DB_USER
+          value: root
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: clinica-db-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: DB_HOST
+          value: clinica-mysql
+        - name: DB_PORT
+          value: "3306"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clinica-service
+spec:
+  selector:
+    app: clinica
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP

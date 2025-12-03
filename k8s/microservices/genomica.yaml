@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: genomica
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: genomica
+  template:
+    metadata:
+      labels:
+        app: genomica
+    spec:
+      containers:
+      - name: genomica
+        image: juanhiginio/genomica:1.0
+        ports:
+        - containerPort: 8000
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: genomica-db-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: DB_NAME
+          value: GenoGenomics
+        - name: DB_USER
+          value: root
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: genomica-db-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: DB_HOST
+          value: genomica-mysql
+        - name: DB_PORT
+          value: "3306"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: genomica-service
+spec:
+  selector:
+    app: genomica
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: ClusterIP

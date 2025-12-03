@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clinica-mysql
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    app: clinica-mysql
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clinica-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clinica-mysql
+  template:
+    metadata:
+      labels:
+        app: clinica-mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+      - name: MYSQL_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: clinica-db-secret
+            key: MYSQL_ROOT_PASSWORD
+      - name: MYSQL_DATABASE
+        value: GenoClinic
+      ports:
+      - containerPort: 3306
+      volumeMounts:
+      - name: mysql-data
+        mountPath: /var/lib/mysql
+    volumes:
+    - name: mysql-data
+      persistentVolumeClaim:
+        claimName: clinica-db-pvc
